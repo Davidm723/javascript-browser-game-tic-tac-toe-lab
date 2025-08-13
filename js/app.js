@@ -35,15 +35,12 @@ let tie;
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll('.sqr');
 const messageEls = document.querySelector('#message');
-console.log(messageEls);
 const resetBtnEl = document.querySelector('#reset');
 
 /*-------------------------------- Functions --------------------------------*/
 const updateBoard = () => {
     squareEls.forEach((square, index) => {
         square.textContent = board[index];
-        console.log(square.textContent)
-        console.log(board[index])
     });
 }
 
@@ -53,7 +50,7 @@ const updateMessage = () => {
     } else if(winner === false && tie === true){
         messageEls.textContent = "It's a tie!"
     } else {
-        messageEls.textContent = 'You win!'
+        messageEls.textContent = `${turn} wins!`
     }
 }
 
@@ -76,12 +73,11 @@ const init = () => {
 
 const handleClick = (e) => {
     const squareIdx = parseInt(e.target.id);
-    if(board[squareIdx] === 'X' || board[squareIdx === 'O' ]|| winner === true){
+    if(board[squareIdx] === 'X' || board[squareIdx] === 'O' || winner === true){
         return;
     }
     placePiece(squareIdx);
     checkForWinner();
-    console.log(winner);
     checkForTie();
     switchPlayerTurn();
     render();
@@ -89,13 +85,13 @@ const handleClick = (e) => {
 
 const placePiece = (index) => {
     board[index] = turn;
-    console.log(board);
 }
 
 const checkForWinner = () => {
     winningCombos.forEach(([a, b, c]) =>{
         if(board[a] !== '' && board[a] === board[b] && board[a] === board[c]){
             winner = true;
+            return;
         }
     })
 }
